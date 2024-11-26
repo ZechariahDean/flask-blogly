@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}User List{% endblock %}
+{% block content %}
+<h1>New User</h1>
+
+<form method="POST" class="form">
+  <input type="text" placeholder="First name" id="first-name" class="form__input" name="first-name">
+  <label for="first-name" class="form__label">First Name</label>
+  <input type="text" placeholder="Last name" id="last-name" class="form__input" name="last-name">
+  <label for="last-name" class="form__label">Last Name</label>
+  <input type="text" placeholder="Image URL" id="image" class="form__input" name="image">
+  <label for="image" class="form__label">Image URL</label>
+  <button type="submit" class="form__button">Add to user list</button>
+  <a href="/user/list" class="form__button">Back to user list</a>
+</form>
+{% endblock %}

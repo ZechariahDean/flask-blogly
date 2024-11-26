@@ -1,0 +1,98 @@
+.form__button {
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+.form {
+  align-self: center;
+}
+
+/* I would use the BEM method here for declaring styles, */
+/* but for the sake of clarity, I decided not to.* */
+
+/* Just some basic input field styling. */
+.form__input {
+  width: clamp(120px, 50vw, 420px);
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  border: 1px solid black;
+  border-radius: 2px;
+  margin: 0.625rem auto;
+  transition: all 250ms;
+  @media (min-width: 768px) {
+    width: clamp(120px, 35vw, 420px);
+  }
+  
+  /* This is basically saying when the form__input class is in focus */
+  &:focus {
+    outline: none;
+    border-top-color: rgba(0,0,0,0.1);
+  }
+  
+  /* How to read this: */
+  /* When the input field (.form__input) is in focus, 
+     transform the .form__label and change colors*/
+  /* ALSO, if the input field's placeholder is NOT shown (when the input field has content),
+     transform the .form__label and change colors. */
+  &:focus + .form__label, &:not(:placeholder-shown) + .form__label {
+    transform: translateY(-4.50rem) scale(1);
+    color: black;
+  }
+  
+  /* THIS PART IS IMPORTANT!! */
+  /* The block below hides the placeholder entirely. */
+  /* For all intents and purposes, the placeholder no longer exists. */
+  /* What shows on the input field is only the label*. */
+  /* HOWEVER, the input fields still recognizes that the placeholder exists!*/
+  /* The placeholder is just invisible. We need the placeholder to exist for
+     some weird CSS stuff. If we skip this, we can't make it CSS-only. */
+  &::placeholder {
+      display: none;
+      color: transparent;
+    
+      /* Prevents users from highlighting the placeholder. */
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none; /* IE 10 and IE 11 */
+      user-select: none; /* Standard syntax */
+  }
+  
+  /* How to read this: */
+  /* When the placeholder is NOT shown,
+     style the top border. */
+  /* This makes the top border fade-out when the placeholder disappears. */
+  &:not(:placeholder-shown) {
+    border-top-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.form__label {
+  font-size: 1rem;
+  color: grey;
+  display: block;
+  
+  /* Moves the label on TOP of the placeholder */
+  /* You'll need to change this as needed */
+  transform: translate(1.25rem,-2.5rem);
+  transform-origin: 0 0; /* Used later for transitions */
+  transition: all 500ms;
+  
+   /* Prevents users from highlighting the label. */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  
+  /* THIS PART IS IMPORTANT! */
+  /* This line prevents the label from being selected.*/
+  /* This is crucial because if this line doesn't exist, users can
+     click on the label, instead of the input field. That's bad UX! */
+  pointer-events: none; 
+}
+
+/* used code from https://codepen.io/kvncnls/pen/MWmJaPw */
