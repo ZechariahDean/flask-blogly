@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, request, redirect, render_template
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -17,7 +17,9 @@ with app.app_context():
 @app.route('/')
 def home():
   """Homepage"""
-  return redirect("/user/list")
+  posts = Post.query.order_by(Post.created_at.desc()).limit(10).all()
+  return render_template("homepage.html", posts = posts)
+  # return redirect("/user/list")
 
 @app.route("/user/list")
 def users_list():
@@ -48,7 +50,64 @@ def user_details(id):
   """page of information on user"""
 
   user = User.query.get_or_404(id)
-  return render_template("user_details.html", user = user)
+  posts = Post.query.filter_by(user_id = user.id).order_by(Post.created_at.desc()).limit(5)
+  return render_template("user_details.html", user = user, posts = posts)
+
+@app.route("/user/<int:id>/posts")
+def user_posts(id):
+  """page of posts related to given user"""
+
+  user = User.query.get_or_404(id)
+  posts = Post.query.filter_by(user_id = user.id).order_by(Post.created_at.desc())
+  return render_template("user_posts.html", user = user, posts = posts)
+
+@app.route("/user/<int:id>/posts/new", methods = ["GET", "POST"])
+def new_post(id):
+  """page with form for creating a new post"""
+
+  user = User.query.get_or_404(id)
+  if request.method == "POST":
+    post = Post(
+      title = request.form["title"],
+      content = request.form["content"],
+      user_id = request.form["user-id"])
+    db.session.add(post)
+    db.session.commit()
+    return redirect(f"/user/{ id }")
+  
+  return render_template("user_post.html", user = user)
+
+@app.route("/post/<int:id>", methods = ["GET"])
+def post(id):
+  """post details"""
+  post = Post.query.get_or_404(id)
+  return render_template("post.html", post = post)
+
+@app.route("/post/<int:id>/edit", methods = ["GET", "POST"])
+def post_edit(id):
+  """edit a post"""
+  post = Post.query.get_or_404(id)
+  if request.method == "POST":
+    post.title = request.form["title"]
+    post.content = request.form["content"]
+    db.session.commit()
+    return redirect(f"/post/{ id }")
+  else:
+    return render_template("post_edit.html", post = post)
+
+@app.route("/post/<int:id>/remove", methods = ["GET", "POST"])
+def post_remove(id):
+  """remove a post"""
+  post = Post.query.get_or_404(id)
+  if request.method == "POST":
+    print("in the if!!!")
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect("/")
+  else:
+    return render_template("post_remove.html", post = post)
+
 
 @app.route("/user/edit/<int:id>", methods = ["GET"])
 def edit_show(id):

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}post remove{% endblock %}
+{% block content %}
+  <h1>Are you sure you want to remove {{ post.title }}</h1>
+  <form>
+    <button formaction="/post/{{ post.id }}/remove" formmethod="POST" class="form__button">
+      YES</button>
+    <button formmethod="GET" formaction="/post/{{ post.id }}" class="form__button">
+      NO</button>
+  </form>
+{% endblock %}

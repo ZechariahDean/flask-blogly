@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}User Posts{% endblock %}
+{% block content %}
+<h1>All Posts for {{ user.get_name }}</h1>
+<a href="/user/{{ user.id }}" class="form__button">Back to user</a>
+{% for post in posts %}
+  <h2>
+    <a href="/post/{{ post.id }}">{{ post.title }}</a>
+  </h2>
+  <p>{{ post.content }}</p>
+  <p>
+    <small>Posted by {{ post.user.get_name }} on {{ post.format_date }}</small>
+  </p>
+{% endfor %}
+{% endblock %}

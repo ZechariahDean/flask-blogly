@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}post details{% endblock %}
+{% block content %}
+  <h1>{{ post.title }} - Details</h1>
+  <p>{{ post.content }}</p>
+  <p>{{ post.format_date }}</p>
+  <a href="/post/{{ post.id }}/edit" class="form__button">Edit</a>
+  <a href="/post/{{ post.id }}/remove" class="form__button" formmethod="POST">Remove</a>
+{% endblock %}

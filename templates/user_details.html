@@ -22,8 +22,21 @@
     </button>
     <button formaction="/user/list" 
             formmethod="GET">Back to user list
-          </button>
+    </button>
+    <button formaction="/user/{{ user.id }}/posts/new" 
+        formmethod="GET">Make A Post
+    </button>
+    <button formaction="/user/{{ user.id }}/posts"
+        formmethod="GET">Posts
+        </button>
   </form>
 </div>
-
+<ul>
+  {% for post in posts %}
+  <li>
+    <a href="/post/{{ post.id }}">{{ post.title }}</a>
+    <small>Posted on {{ post.format_date }}</small>
+  </li>
+  {% endfor %}
+</ul>
 {% endblock %}
