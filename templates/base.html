@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock %} - blogly</title>
-  <!-- <link rel="stylesheet" href="stylesheets/style.css" type="text/css"> -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   {% endblock %}
 </head>
@@ -14,6 +13,7 @@
     <nav>
       <a href="/user/list" class="form__button">To Users</a>
       <a href="/" class="form__button">Homepage</a>
+      <a href="/tag" class="form__button">To Tags</a>
     </nav>
   </header>
   <div id="content">{% block content %}{% endblock %}</div>

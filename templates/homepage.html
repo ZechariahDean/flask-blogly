@@ -10,6 +10,14 @@
 <p>
   <small>Posted by {{ post.user.get_name }} on {{ post.format_date }}</small>
 </p>
+{% if post.tag %}
+<p>
+  {% for tag in post.tag %}
+  <a href="/tag/{{ tag.id }}">
+    <i class="tag">{{ tag.name }}</i></a>
+  {% endfor %}
+</p>
+{% endif %}
 {% endfor %}
 
 {% endblock %}

@@ -3,7 +3,18 @@
 {% block content %}
   <h1>{{ post.title }} - Details</h1>
   <p>{{ post.content }}</p>
-  <p>{{ post.format_date }}</p>
+  <p><i>By {{ post.user.get_name }} on {{ post.format_date }}</i></p>
+
+  {% if post.tag %}
+  <p>
+    <b>Tags:</b>
+    {% for tag in post.tag %}
+    <a href="/tag/{{ tag.id }}" class="tag"><i>{{ tag.name }}</i></a>
+    {% endfor %}
+  </p>
+  {% endif %}
+
+  <a href="/user/{{ post.user.id }}" class="form__button">Cancel</a>
   <a href="/post/{{ post.id }}/edit" class="form__button">Edit</a>
   <a href="/post/{{ post.id }}/remove" class="form__button" formmethod="POST">Remove</a>
 {% endblock %}

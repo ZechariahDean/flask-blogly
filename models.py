@@ -39,7 +39,29 @@ class Post(db.Model):
     """Return formatted date."""
 
     return self.created_at.strftime("%a %b %-d  %Y, %-I:%M %p")
-  
+
+class PostTag(db.Model):
+  """m2m between tag and post"""
+
+  __tablename__ = "posttag"
+
+  post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable = False, primary_key = True)
+  tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable = False, primary_key = True)
+
+class Tag(db.Model):
+  """blogly tag"""
+
+  __tablename__ = "tag"
+
+  id = db.Column(db.Integer, primary_key = True)
+  name = db.Column(db.Text, nullable = False, unique = True)
+
+  post = db.relationship(
+    'Post',
+    secondary = "posttag",
+    backref = "tag",
+  )
+
 def connect_db(app):
   """Connect the database to application"""
   db.app = app
